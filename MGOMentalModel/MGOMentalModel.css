@@ -1,0 +1,251 @@
+.qv-object-MGOMentalModel div.qv-object-content-container {
+	overflow: auto;
+	cursor: default;
+}
+
+
+.qv-object-MGOMentalModel div.qv-object-content-container .selectable{
+	cursor: pointer;
+}
+
+.qv-object-MGOMentalModel .mmControlButs .mmIconButAdjust{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.qv-object-MGOMentalModel .mmControlButs {
+	display:block;
+	width:100%;
+	opacity: 1.0;
+	z-index: 6;
+	position: absolute;
+	left:2px;
+	top:2px;
+	height:auto;
+	padding:0px;
+	margin:0px;
+}
+.qv-object-MGOMentalModel span.mmQlikIcons { 
+	font-family: LUI icons; 
+	font-size: 16px;
+}
+
+.qv-object-MGOMentalModel .mmControlButs button {
+	background-color: #fff;
+}
+
+.qv-object-MGOMentalModel .mmControlButs button {
+	background-color: #fff;
+	padding-left: 10px;
+}
+
+.qv-object-MGOMentalModel .modelcontainerv {
+	width:auto;
+	background-color: #fff;
+	margin:0px;
+	padding:0px;
+	height:auto;
+	padding-top: 40px;
+}
+
+.qv-object-MGOMentalModel .mmspacev {
+	height:auto;
+	background-color: #FFF;
+	/* border-bottom: 10px solid #ddd;*/
+	/* float:left; */
+	padding-left: 20px;
+	padding-right: 10px;
+	padding-bottom: 20px;
+	display:block;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .mmtowerv {
+	width: auto;
+	display:block;
+	border: 1px solid #CCC;
+	background-color: #FFFFF0;
+	margin: 0px 10px 10px 0px;
+	padding-bottom: 10px;
+	/* vertical-align: baseline; */
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .mmsummaryv{
+	width: auto;
+	border: 1px solid #CCC;
+	margin: 10px 10px 10px 10px;
+	background-color: #FFFFFF;
+	padding:2px;
+	font-size: 14px;
+	font-family: inherit;
+}
+
+
+.qv-object-MGOMentalModel .mmspacetitlev{
+	font-size: 48px;
+	font-weight: bold;
+	width:100%;
+	padding:6px 0px;
+	color:#CCC;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .mmtowertitlev {
+	font-size: 24px;
+	font-weight: bold;
+	padding:6px;
+	color:#888;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .modelcontainerh {
+	background-color: #fff;
+	position:absolute;
+	margin:0px;
+	/*padding:0px;*/
+	/*height:100%;*/
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .mmspaceh {
+	height:auto;
+	position:relative;
+	/* border-left: 10px solid #ddd;*/
+	background-color: #FFF;
+	/* float:left; */
+	padding-left: 20px;
+	padding-right: 10px;
+	padding-bottom: 20px;
+	display:inline-block;
+	margin-top: 40px;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .mmtowerh {
+	width: 250px;
+	position: relative;
+	/* bottom: 10px; */
+	/* float:left; */
+	display:inline-block;
+	border: 1px solid #CCC;
+	background-color: #FFFFF0;
+	margin: 0px 10px 10px 0px;
+	/* vertical-align: baseline; */
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .icicles {
+	float:left;
+}
+
+.qv-object-MGOMentalModel .mmsummaryh{
+	/*width: 220px;*/
+	border: 1px solid #CCC;
+	margin: 4px 10px 4px 10px;
+	background-color: #FFFFFF;
+	padding:2px;
+	font-size: 14px;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .mmsummaryhhide{
+	display:none;
+}
+
+
+
+.qv-object-MGOMentalModel .mmspacetitleh{
+	font-size: 48px;
+	font-weight: bold;
+	width:100%;
+	padding:20px 0px;
+	color:#CCC;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel .mmtowertitleh {
+	font-size: 24px;
+	font-weight: bold;
+	padding:6px;
+	color:#888;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel span.mmsummarytxt{
+	font-family: inherit;
+	}
+
+.qv-object-MGOMentalModel span.mmAdditionalData{
+	background-color: transparent;
+	display: block;
+	text-align: right;
+	font-family: inherit;
+	}
+
+
+.qv-object-MGOMentalModel span.mmMeasureValNum {
+	background-color: transparent;
+	display: inline-block;
+	padding: 4px;
+	font-family: inherit;
+}
+.qv-object-MGOMentalModel span.mmDim4ValNum {
+	background-color: transparent;
+	display: inline-block;
+	padding: 4px;
+	font-family: inherit;
+	
+}
+
+.qv-object-MGOMentalModel div.mmLegend {
+	color: #999;
+	background-color: #FFF;
+	padding: 0px;
+	position:absolute;
+	top:6px;
+	left:60px;
+	font-weight:bold;
+	display:block;
+	width:100%;
+	opacity: 1.0;
+	z-index: 7;
+	position: absolute;
+	height:auto;
+	padding:0px;
+	margin:0px;
+	font-family: inherit;
+
+}
+
+.qv-object-MGOMentalModel span.mmLegendTitle{
+	color: #CCC;
+	display: inline-block;
+	margin-right: 14px;	
+	font-family: inherit;
+	}
+
+.qv-object-MGOMentalModel span.mmLegendItem	{
+	display: inline-block;
+	width:auto;
+	font-family: inherit;
+}
+
+.qv-object-MGOMentalModel div span.mmLegendCol{
+	display: inline-block;
+	margin-right: 14px;
+	width:18px;
+	height:14px;
+	font-family: inherit;
+}
+
+/* scaling and zooming */
+.qv-object-MGOMentalModel .mmZoomout50{
+	transform: scale(0.5);
+    transform-origin: top left;
+}
+
+
+
+
+

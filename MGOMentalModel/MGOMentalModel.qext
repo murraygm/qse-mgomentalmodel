@@ -1,0 +1,10 @@
+{
+	"name" : "MGO Mental Model",
+	"description" : "Create a hierarchical mental model diagram (spaces, towers, boxes) using 3 dimensions",
+	"icon" : "extension",
+	"preview": "MGOMentalModel.png",
+	"type" : "visualization",
+	"version": 1.5,
+	"preview" : "extension",
+	"author": "Murray Grigo-McMahon"
+}
