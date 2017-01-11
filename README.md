@@ -12,5 +12,5 @@ A Qlik Sense extension that creates Mental Model style diagrams (spaces, towers 
 * Scaling and size controls
 * Selection control (on Space, Tower, box or multiple)
 
-**KNOWN ISSUES: **
+**KNOWN ISSUES:**
 * requires live web connection for Google Font use
