@@ -34,7 +34,7 @@ function($, cssContent, WebFont) {'use strict';
 					uses: "sorting"
 				},
 				mentalmodel: {
-					label:"Mental Model v2",
+					label:"Mental Model",
 					component: "expandable-items",
 					items: {
 					ModelOrientation: {
