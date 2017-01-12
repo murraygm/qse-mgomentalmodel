@@ -1,6 +1,8 @@
 # qse-mgomentalmodel
 A Qlik Sense extension that creates Mental Model style diagrams (spaces, towers and boxes). These are 3 dimension based hierarchically nested visualisations. This was initially developed to work with [Indi Young's](http://indiyoung.com/) user research Mental Models (example uses her Dog Mental Model), but can be used whenever you want to visualise nested dimensions. I've used it to visual display JIRA items (Scenarios > Epics > User Stories).
 
+This is a first pass and needs refinement - best used locally, Qlik Sense 3.# up, (works on Qlik Sense Enterprise 3.2 - but is not recommended for production deployment). 
+
 Download zipped extension - [release 1 (Jan 2017)](https://github.com/murraygm/qse-mgomentalmodel/raw/master/MGOMentalModel_release1.zip)
 
 ![MODEL][MODEL]
@@ -74,6 +76,7 @@ Mental Models work really well when they come in 2 parts. A top (the user's ment
 
 
 **KNOWN ISSUES:**
-* requires live web connection for Google Font use (may impact extension display even if you've not set the Google option)
+* Requires live web connection for Google Font use (may impact extension display even if you've not set the Google option)
+* There are display issues if the data has more than 2000 box level items 
 * For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
 
