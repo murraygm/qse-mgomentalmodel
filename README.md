@@ -5,6 +5,12 @@ This is a first pass and needs refinement - best used locally, Qlik Sense 3.# up
 
 Download zipped extension - [release 1 (Jan 2017)](https://github.com/murraygm/qse-mgomentalmodel/raw/master/MGOMentalModel_release1.zip)
 
+**KNOWN ISSUES:**
+* Requires live web connection for Google Font use (may impact extension display even if you've not set the Google option).
+* There are display issues if the data has more than 2000 box level items - selction needs to be made to reduce hypercube. 
+* For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
+
+
 ![MODEL][MODEL]
 [MODEL]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/dog_clip.png "MODEL"
 
@@ -75,8 +81,5 @@ Mental Models work really well when they come in 2 parts. A top (the user's ment
 [eg9]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_59_29.png "eg9"
 
 
-**KNOWN ISSUES:**
-* Requires live web connection for Google Font use (may impact extension display even if you've not set the Google option)
-* There are display issues if the data has more than 2000 box level items 
-* For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
+
 
