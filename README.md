@@ -17,5 +17,46 @@ Download zipped extension - [release 1 (Jan 2017)](https://github.com/murraygm/q
 [props]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_props.png "props"
 
 
+**Examples:**
+
+Default 3 dimensions.
+![eg1][eg1]
+[eg1]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_35_48.png "eg1"
+
+Use the 'eye' icon is analysis mode to access adhoc scaling and hide/show options.
+![eg2][eg2]
+[eg2]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_36_43.png "eg2"
+
+Override the 'fit height' option and specify a scale.
+![eg3][eg3]
+[eg3]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_37_41.png "eg3"
+
+Add a 4th dimension and use it to colour the boxes (the 3rd dimension) - works best if 1-1 relationship.
+![eg4][eg4]
+[eg4]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_39_07.png "eg4"
+
+Or use a measure to colour the boxes (the 3rd dimension).
+![eg5][eg5]
+[eg5]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_46_05.png "eg5"
+
+ALternatively override the default colours and specify your own.
+![eg6][eg6]
+[eg6]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_49_08.png "eg6"
+
+You can also change the type settings, such as the font, font size and alignment.
+![eg7][eg7]
+[eg7]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_50_40.png "eg7"
+
+Override the models width and scale and force the layout to wrap, giving you a condensed view.
+![eg8][eg8]
+[eg8]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_52_49.png "eg8"
+
+Mental Models work really well when they come in 2 parts. A top (the user's mental model) and a bottom part (your teams ideas to support them). Simple put 2 on the sheet and set the to have the same scale, using the same first 2 dimensions (Space and Tower).
+![eg9][eg9]
+[eg9]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_59_29.png "eg9"
+
+
 **KNOWN ISSUES:**
-* requires live web connection for Google Font use
+* requires live web connection for Google Font use (may impact extension display even if you've not set the Google option)
+* For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
+
