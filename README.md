@@ -9,6 +9,7 @@ Download zipped extension - [release 1 (Jan 2017)](https://github.com/murraygm/q
 * Requires live web connection for Google Font use (may impact extension display even if you've not set the Google option).
 * There are display issues if the data has more than 2000 box level items - selction needs to be made to reduce hypercube. 
 * For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
+* As yet no printing/export
 
 
 ![MODEL][MODEL]
@@ -69,7 +70,7 @@ You can also change the type settings, such as the font, font size and alignment
 [eg7]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_50_40.png "eg7"
 
 
-Override the models width and scale and force the layout to wrap, giving you a condensed view.
+Override the model's width and scale and force the layout to wrap, giving you a condensed view.
 
 ![eg8][eg8]
 [eg8]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_52_49.png "eg8"
