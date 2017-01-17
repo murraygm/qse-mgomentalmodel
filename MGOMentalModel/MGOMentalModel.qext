@@ -4,7 +4,7 @@
 	"icon" : "extension",
 	"preview": "MGOMentalModel.png",
 	"type" : "visualization",
-	"version": 1.5,
+	"version": 1.6,
 	"preview" : "extension",
 	"author": "Murray Grigo-McMahon"
 }

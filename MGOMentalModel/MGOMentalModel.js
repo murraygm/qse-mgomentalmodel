@@ -4,7 +4,7 @@ function($, cssContent, WebFont) {'use strict';
 	$("<style>").html(cssContent).appendTo("head");
 	return {
 		initialProperties: {
-			version: 1.5,
+			version: 1.6,
 			qHyperCubeDef: {
 				qDimensions: [],
 				qMeasures: [],
@@ -789,6 +789,9 @@ function($, cssContent, WebFont) {'use strict';
 		snapshot: {
 			canTakeSnapshot: true
 		},
+		support : {
+			exportData: true
+		},
 		
 
 
@@ -1133,7 +1136,8 @@ function($, cssContent, WebFont) {'use strict';
 			html+= '<button class="butZoomin lui-button mmIconButAdjust" alt="Zoom In" type="button"><span class="mmQlikIcons">Y</span></button> ';
 			html+= '<button class="butFitHeight lui-button mmIconButAdjust" alt="Fit Height" type="button"><span class="mmQlikIcons">ƒ</span></button> ';
 			html+= '<button class="butFitWidth lui-button mmIconButAdjust" alt="Fit Width" type="button"><span class="mmQlikIcons">√</span></button> ';
-			html+= '<button class="butReposition lui-button " type="button">Reset</button>';			
+			html+= '<button class="butReposition lui-button " type="button">Reset</button>';	
+			html+= '<button class="butPrint lui-button mmIconButAdjust" alt="Fit Height" type="button"><span class="mmQlikIcons">r</span></button>';		
 			html+= '</div>';
 			
 		
@@ -1197,10 +1201,10 @@ function($, cssContent, WebFont) {'use strict';
 			if(layout.qDef.custOrientationOn){
 				if(layout.qDef.custOrientationVal){
 					mmOrient = 'v'; 
-					html += '<div class="modelcontainerv" style="'+mmDefScaleInsert+mmCustFontInsert+'">';
+					html += '<div class="modelcontainerv" style="'+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
 				} else {
 					mmOrient = 'h'; 
-					html += '<div class="modelcontainerh" style="width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'">';					
+					html += '<div class="modelcontainerh" style="width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';					
 				};
 			} else {
 				//check panel orientation and render based on port/land
@@ -1208,10 +1212,10 @@ function($, cssContent, WebFont) {'use strict';
 				var AspectW = $element.parent().parent().innerWidth();
 				if(AspectH <= AspectW){
 					mmOrient = 'h';
-					html += '<div class="modelcontainerh" style="width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'">';
+					html += '<div class="modelcontainerh" style="width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
 				} else {
 					mmOrient = 'v';
-					html += '<div class="modelcontainerv" style="'+mmDefScaleInsert+mmCustFontInsert+'">';
+					html += '<div class="modelcontainerv" style="'+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
 				};
 				
 			};
@@ -1897,7 +1901,31 @@ function($, cssContent, WebFont) {'use strict';
 					$element.parent().parent().scrollTop(0);
 				}
 			});
+
 			
+			$element.find('.butPrint').on('click', function() {
+				 var mmToPrint = 'mmI'+mmuniqueID;
+			     var printContents = document.getElementById(mmToPrint).innerHTML;
+			     //var originalContents = document.body.innerHTML;
+
+
+			     document.body.innerHTML = '<div class="mmPrintMessage">Print using the browser, then choose a large format (best from a PDF writer) to output to, eg A0 as this will help tiling.<br><br>'
+			     +'If your print dialogue does not allow for large pages, you can "shrink" the model using these controls.<br><br>'
+			     + 'Size: <button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.5)\'; tg.style.width=\'200%\';">1:2</button>'
+			     + '<button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.25)\'; tg.style.width=\'400%\';">1:4</button>'
+			     + '<button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'50% 50%\'; tg.style.transform=\'scale(1.0)\'; tg.style.width=\'100%\';"">1:1</button>'
+			     +'<br><br><button class="lui-button" onclick="location.reload();">Return to sheet</button></div><div id="mmIComtainer">'+printContents+'</div>';
+
+			     
+
+			     document.body.className = "";
+			     document.body.className = 'qv-object-MGOMentalModel forceShow';
+			     document.body.style.overflow = 'scroll';
+			     
+			});
+
+			
+			return Promise.resolve();
 	
 		}
 		

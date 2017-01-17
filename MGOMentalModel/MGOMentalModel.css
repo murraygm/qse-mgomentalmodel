@@ -3,6 +3,33 @@
 	cursor: default;
 }
 
+@media print{
+	.forceShow{
+		overflow: visible !important;
+	}
+	.mmPrintMessage{
+		display:none;
+
+	}
+
+}
+
+.qv-object-MGOMentalModel .mmPrintMessage{
+	 position: absolute;
+	 right:20px;
+	 top:20px;
+	 width:200px;
+	 height:auto;
+	 background-color: rgba(255, 255, 255, 0.7);
+	 color: #878787;
+	 font-size: 16px;
+	 line-height: 18px;
+	 font-weight: bold;
+	 z-index:2000;
+	 padding:10px;
+	 border-radius: 5px;
+	 border: 1px solid #cc0000;
+	}
 
 .qv-object-MGOMentalModel div.qv-object-content-container .selectable{
 	cursor: pointer;
@@ -244,8 +271,6 @@
 	transform: scale(0.5);
     transform-origin: top left;
 }
-
-
 
 
 
