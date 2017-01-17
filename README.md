@@ -3,7 +3,7 @@ A Qlik Sense extension that creates Mental Model style diagrams (spaces, towers 
 
 This is a first pass and needs refinement - best used locally, Qlik Sense 3.# desktop [download here](http://global.qlik.com/us/landing/go-sm/qlik-sense-desktop/brand), (works on Qlik Sense Enterprise 3.2 - but is not recommended for production deployment). 
 
-Download zipped extension - [release 1.6 (Jan 16th 2017)](https://github.com/murraygm/qse-mgomentalmodel/raw/master/MGOMentalModel_release1_6.zip)
+Download zipped extension - [release 1.7 (Jan 17th 2017)](https://github.com/murraygm/qse-mgomentalmodel/raw/master/MGOMentalModel_release1_7.zip)
 
 **KNOWN ISSUES:**
 * Requires live web connection for Google Font use (may impact extension display even if you've not set the Google option).
