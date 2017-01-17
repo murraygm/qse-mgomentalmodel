@@ -82,5 +82,12 @@ Mental Models work really well when they come in 2 parts. A top (the user's ment
 [eg9]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_59_29.png "eg9"
 
 
+For those of you who like a hard copy - it now includes a print option (beta) from the 'eye' menu. This creates a mental model only view in the browser so that you can print using the browser's print controls. NB) If using Chrome, make sure you select the 'Background graphics' option to get your colour settings.
+
+![egP][egP]
+[egP]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_print.png "egP"
+
+
+
 
 
