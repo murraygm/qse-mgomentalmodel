@@ -4,7 +4,7 @@ function($, cssContent, WebFont) {'use strict';
 	$("<style>").html(cssContent).appendTo("head");
 	return {
 		initialProperties: {
-			version: 1.6,
+			version: 1.7,
 			qHyperCubeDef: {
 				qDimensions: [],
 				qMeasures: [],
@@ -513,6 +513,14 @@ function($, cssContent, WebFont) {'use strict';
 								label : "Use custom colours",
 								type : "boolean",
 								defaultValue : false
+								},
+							mmStyleModelBGCol : {
+								ref : "qDef.mmStyleModelBG",
+								label: "Background Color for Model (HEX)",
+								type: "string",
+								expression: "optional",
+								defaultValue: "FFFFFF",
+								show: function(layout) { return layout.qDef.mmCustomCols } 
 								},
 							mmStyleSpaceBGCol : {
 								ref : "qDef.mmStyleSpaceBG",
@@ -1045,7 +1053,7 @@ function($, cssContent, WebFont) {'use strict';
 			
 			
 			//Set up styles VARs
-			var mmstSpaceBGCol, mmstTowerBGCol, mmstSummaryBGCol, mmstSpaceTitleCol, mmstTowerTitleCol, mmstSummaryTxtCol;
+			var mmstModelBGCol, mmstSpaceBGCol, mmstTowerBGCol, mmstSummaryBGCol, mmstSpaceTitleCol, mmstTowerTitleCol, mmstSummaryTxtCol;
 			var mmstSpaceTitleSize, mmstTowerTitleSize, mmstSummaryTxtSize, mmstSpaceTitleAlign, mmstTowerTitleAlign, mmstSummaryTxtAlign, mmstTxtLineHeight;
 			var mmstSpaceDividerSize, mmstSpaceDividerCol, mmstTowerBorderSize, mmstTowerBorderCol, mmstSummaryBorderSize, mmstSummaryBorderCol;
 			
@@ -1065,6 +1073,7 @@ function($, cssContent, WebFont) {'use strict';
 
 			//Colour options
 			if(layout.qDef.mmCustomCols){
+				mmstModelBGCol = layout.qDef.mmStyleModelBG;
 				mmstSpaceBGCol = layout.qDef.mmStyleSpaceBG;
 				mmstTowerBGCol = layout.qDef.mmStyleTowerBG;
 				mmstSummaryBGCol = layout.qDef.mmStyleSummaryBG;
@@ -1072,6 +1081,7 @@ function($, cssContent, WebFont) {'use strict';
 				mmstTowerTitleCol = layout.qDef.mmStyleTowerTitleTxtCol;
 				mmstSummaryTxtCol = layout.qDef.mmStyleSummaryTxtCol;
 			} else {
+				mmstModelBGCol = 'inherit';
 				mmstSpaceBGCol = 'FFFFFF';
 				mmstTowerBGCol = 'FFFFF0';
 				mmstSummaryBGCol = 'FFFFFF';
@@ -1201,10 +1211,10 @@ function($, cssContent, WebFont) {'use strict';
 			if(layout.qDef.custOrientationOn){
 				if(layout.qDef.custOrientationVal){
 					mmOrient = 'v'; 
-					html += '<div class="modelcontainerv" style="'+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
+					html += '<div class="modelcontainerv" style="background-color:#'+mmstModelBGCol+'; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
 				} else {
 					mmOrient = 'h'; 
-					html += '<div class="modelcontainerh" style="width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';					
+					html += '<div class="modelcontainerh" style="background-color:#'+mmstModelBGCol+'; '+'width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';					
 				};
 			} else {
 				//check panel orientation and render based on port/land
@@ -1212,10 +1222,10 @@ function($, cssContent, WebFont) {'use strict';
 				var AspectW = $element.parent().parent().innerWidth();
 				if(AspectH <= AspectW){
 					mmOrient = 'h';
-					html += '<div class="modelcontainerh" style="width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
+					html += '<div class="modelcontainerh" style="background-color:#'+mmstModelBGCol+'; '+'width:'+ mmWidth +'px; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
 				} else {
 					mmOrient = 'v';
-					html += '<div class="modelcontainerv" style="'+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
+					html += '<div class="modelcontainerv" style="background-color:#'+mmstModelBGCol+'; '+mmDefScaleInsert+mmCustFontInsert+'" id="'+'mmI'+mmuniqueID+'">';
 				};
 				
 			};
@@ -1909,12 +1919,12 @@ function($, cssContent, WebFont) {'use strict';
 			     //var originalContents = document.body.innerHTML;
 
 
-			     document.body.innerHTML = '<div class="mmPrintMessage">Print using the browser, then choose a large format (best from a PDF writer) to output to, eg A0 as this will help tiling.<br><br>'
+			     document.body.innerHTML = '<div class="mmPrintMessage">Print using the browser or button below, then choose a large format (best from a PDF writer) to output to, eg A0 as this will help tiling.<br><br>'
 			     +'If your print dialogue does not allow for large pages, you can "shrink" the model using these controls.<br><br>'
 			     + 'Size: <button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.5)\'; tg.style.width=\'200%\';">1:2</button>'
 			     + '<button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.25)\'; tg.style.width=\'400%\';">1:4</button>'
 			     + '<button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'50% 50%\'; tg.style.transform=\'scale(1.0)\'; tg.style.width=\'100%\';"">1:1</button>'
-			     +'<br><br><button class="lui-button" onclick="location.reload();">Return to sheet</button></div><div id="mmIComtainer">'+printContents+'</div>';
+			     +'<br><br><button class="lui-button mmIconButAdjust" alt="Fit Height" onclick="window.print();" type="button"><span class="mmQlikIcons">r</span></button> <button class="lui-button" onclick="location.reload();">Return to sheet</button></div><div id="mmIComtainer" style="background-color:#'+mmstModelBGCol+'; '+mmCustFontInsert+'">'+printContents+'</div>';
 
 			     
 
