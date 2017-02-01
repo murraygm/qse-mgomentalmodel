@@ -564,7 +564,7 @@ function($, cssContent, WebFont) {'use strict';
 								},	
 							mmStyleSummaryTxtCol : {
 								ref : "qDef.mmStyleSummaryTxtCol",
-								label: "Color for Boxes (HEX)",
+								label: "Color for text in Boxes (HEX)",
 								type: "string",
 								expression: "optional",
 								defaultValue: "666666",
@@ -1146,7 +1146,7 @@ function($, cssContent, WebFont) {'use strict';
 			html+= '<button class="butZoomin lui-button mmIconButAdjust" alt="Zoom In" type="button"><span class="mmQlikIcons">Y</span></button> ';
 			html+= '<button class="butFitHeight lui-button mmIconButAdjust" alt="Fit Height" type="button"><span class="mmQlikIcons">ƒ</span></button> ';
 			html+= '<button class="butFitWidth lui-button mmIconButAdjust" alt="Fit Width" type="button"><span class="mmQlikIcons">√</span></button> ';
-			html+= '<button class="butReposition lui-button " type="button">Reset</button>';	
+			html+= '<button class="butReposition lui-button " type="button">Reset</button> ';	
 			html+= '<button class="butPrint lui-button mmIconButAdjust" alt="Fit Height" type="button"><span class="mmQlikIcons">r</span></button>';		
 			html+= '</div>';
 			
@@ -1921,9 +1921,11 @@ function($, cssContent, WebFont) {'use strict';
 
 			     document.body.innerHTML = '<div class="mmPrintMessage">Print using the browser or button below, then choose a large format (best from a PDF writer) to output to, eg A0 as this will help tiling.<br><br>'
 			     +'If your print dialogue does not allow for large pages, you can "shrink" the model using these controls.<br><br>'
-			     + 'Size: <button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.5)\'; tg.style.width=\'200%\';">1:2</button>'
-			     + '<button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.25)\'; tg.style.width=\'400%\';">1:4</button>'
-			     + '<button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'50% 50%\'; tg.style.transform=\'scale(1.0)\'; tg.style.width=\'100%\';"">1:1</button>'
+			     + 'Size:<br><span class="lui-buttongroup">'
+			     + ' <button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'50% 50%\'; tg.style.transform=\'scale(1.0)\'; tg.style.width=\'100%\';"">1:1</button>'
+			     + ' <button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.5)\'; tg.style.width=\'200%\';">1:2</button>'
+			     + ' <button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.25)\'; tg.style.width=\'400%\';">1:4</button>'
+			     + ' <button class="lui-button" onclick="var tg=document.getElementById(\'mmIComtainer\'); tg.style.transformOrigin=\'0 0\'; tg.style.transform=\'scale(0.10)\'; tg.style.width=\'1000%\';">1:10</button></span>'
 			     +'<br><br><button class="lui-button mmIconButAdjust" alt="Fit Height" onclick="window.print();" type="button"><span class="mmQlikIcons">r</span></button> <button class="lui-button" onclick="location.reload();">Return to sheet</button></div><div id="mmIComtainer" style="background-color:#'+mmstModelBGCol+'; '+mmCustFontInsert+'">'+printContents+'</div>';
 
 			     
