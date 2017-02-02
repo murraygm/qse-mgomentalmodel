@@ -4,7 +4,7 @@ function($, cssContent, WebFont) {'use strict';
 	$("<style>").html(cssContent).appendTo("head");
 	return {
 		initialProperties: {
-			version: 1.7,
+			version: 1.8,
 			qHyperCubeDef: {
 				qDimensions: [],
 				qMeasures: [],
@@ -784,6 +784,138 @@ function($, cssContent, WebFont) {'use strict';
 								show: function(layout) { return layout.qDef.mCustomTxt } 
 								}	
 							}
+						},
+						colourFlag: {
+						type:"items",
+						label:"Colour indicator",
+						items: {
+							colorFlagTog : {
+								ref : "qDef.IMGCOLORFLAG",
+								label : "Set a custom colour indicator",
+								type : "boolean",
+								defaultValue : false
+								},
+							colorFlagRef : {
+								ref: "qDef.IMGCOLORFLAGREF",
+								type: "string",
+								component: "dropdown",
+								label: "If the value in this (dimension or measure)...",
+								options: [{
+									value: "1",
+									label: "Dimension 1",
+									tooltip: "Assess using dimension 1"
+								},{
+									value: "2",
+									label: "Dimension 2",
+									tooltip: "Assess using dimension 2"
+								},{
+									value: "3",
+									label: "Dimension 3",
+									tooltip: "Assess using dimension 3"
+								},{
+									value: "4",
+									label: "Dimension 4",
+									tooltip: "Assess using dimension 4"
+								},{
+									value: "5",
+									label: "Measure 1",
+									tooltip: "Assess using measure 1"
+								}],
+								defaultValue: "0",
+								show: function(layout) { return layout.qDef.IMGCOLORFLAG }
+								},
+							colorFlagOperator : {
+								type: "string",
+								component: "buttongroup",
+								label: "is...",
+								ref: "qDef.IMGCOLORFLAGOP",
+								options: [{
+									value: "e",
+									label: "=",
+									tooltip: "Equal to"
+								}, {
+									value: "g",
+									label: ">",
+									tooltip: "Greater than"
+								}, {
+									value: "l",
+									label: "<",
+									tooltip: "Less than"
+								}, {
+									value: "b",
+									label: "Btw",
+									tooltip: "Between (exclusive)"
+								}],
+								defaultValue: "e",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 4)){ return true } else { return false } } 
+								},
+							colorFlagValueNum : {
+								type : "number",
+								label : "Numeric value for measure:",
+								expression: "optional",
+								defaultValue : 0,
+								ref: "qDef.IMGCOLORFLAGNUMVAL",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 4)){ return true } else { return false } } 
+								},
+							colorFlagValueNum2 : {
+								type : "number",
+								expression: "optional",
+								defaultValue : 0,
+								ref: "qDef.IMGCOLORFLAGNUMVAL2",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 4) & (layout.qDef.IMGCOLORFLAGOP =="b")){ return true } else { return false } } 
+								},
+							colorFlagDimOperator : {
+								type: "string",
+								component: "buttongroup",
+								label: "",
+								ref: "qDef.IMGCOLORFLAGDIMOP",
+								options: [{
+									value: "m",
+									label: "Matches",
+									tooltip: "Matches string"
+								}, {
+									value: "i",
+									label: "Contains",
+									tooltip: "Includes string"
+								}],
+								defaultValue: "m",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 5)){ return true } else { return false } } 
+								},
+							colorFlagValueDim : {
+								type : "string",
+								expression: "optional",
+								label : "value in dimension (case sensitive):",
+								defaultValue : "",
+								ref: "qDef.IMGCOLORFLAGDIMVAL",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 5)){ return true } else { return false } } 
+								},
+							colorFlagTarget : {
+								ref: "qDef.IMGCOLORFLAGTARG",
+								type: "string",
+								component: "dropdown",
+								label: "then, flag via this property",
+								options: [{
+									value: "b",
+									label: "Background of box",
+									tooltip: "Overide background colour of box"
+								},{
+									value: "c",
+									label: "Corner marker in box",
+									tooltip: "Corner marker in box"
+								}],
+								defaultValue: "b",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 0)){ return true } else { return false } } 
+								},
+							colorFlagTargetCol : {
+								type : "string",
+								expression: "optional",
+								label : "To this colour (HEX)",
+								defaultValue : "F00",
+								ref: "qDef.IMGCOLORFLAGDTARGCOL",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 0)){ return true } else { return false } } 
+								}
+
+							}
 						}
 					}
 
@@ -1263,6 +1395,57 @@ function($, cssContent, WebFont) {'use strict';
 				towersTSelectable = '';
 				//boxesTSelectable = '';
 			};
+
+
+			//SET UP COLOUR FLAG IF EXISTS
+			var colFlagToggle=layout.qDef.IMGCOLORFLAG, colFlagTargData = "", colFlagTargDataType ="", colFlagTargDataOP ="", colFlagTargValue= "", colFlagTargValue2= "", colFlagTargProperty ="", colFlagTargColValue="", colFlagTargStringOP="";
+			var colFlagTextColInsert='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL;
+			var colFlagTextColInsertM1='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL, colFlagTextColInsertM2='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL;
+			if(colFlagToggle){
+				//console.log('FLAG ON');
+				colFlagTargData = layout.qDef.IMGCOLORFLAGREF;
+
+				if(colFlagTargData < 5){
+					//console.log('FLAG DIM');
+					colFlagTargDataType = "dim";
+					colFlagTargValue = layout.qDef.IMGCOLORFLAGDIMVAL;
+					colFlagTargStringOP = layout.qDef.IMGCOLORFLAGDIMOP;
+
+					colFlagTargProperty = layout.qDef.IMGCOLORFLAGTARG;
+					colFlagTargColValue = layout.qDef.IMGCOLORFLAGDTARGCOL;
+
+
+				} else {
+					//console.log('FLAG MEAS');
+					colFlagTargDataType = "meas";
+					colFlagTargDataOP = layout.qDef.IMGCOLORFLAGOP;
+					if(colFlagTargDataOP == 'b'){
+						colFlagTargValue = layout.qDef.IMGCOLORFLAGNUMVAL;
+						colFlagTargValue2 = layout.qDef.IMGCOLORFLAGNUMVAL2;
+					} else {
+						colFlagTargValue = layout.qDef.IMGCOLORFLAGNUMVAL;
+					};
+					
+					colFlagTargProperty = layout.qDef.IMGCOLORFLAGTARG;
+					colFlagTargColValue = layout.qDef.IMGCOLORFLAGDTARGCOL;
+				};
+				/**
+				//console.log(
+					'colFlagTargData ' + colFlagTargData +
+					' | colFlagTargDataType ' + colFlagTargDataType +
+					' | colFlagTargDataOP ' + colFlagTargDataOP +
+					' | colFlagTargStringOP ' + colFlagTargStringOP +
+					' | colFlagTargValue ' + colFlagTargValue +
+					' | colFlagTargValue2  ' + colFlagTargValue2+ 
+					' | colFlagTargProperty ' + colFlagTargProperty+
+					' | colFlagTargColValue ' + colFlagTargColValue
+					);
+				
+				**/
+		
+
+			};
+
 		
 			//render data - build out the spaces, towers and boxes
 				var preElement1, curElement1, preElement2, curElement2, ele1Open=0, ele2Open=0, Dim4EleArr=[], dim1Total= 0, dim2Total= 0, TowerTotArr=[], TowerTotValsArr=[], TowerNum=0, TowerBoxCount=0;
@@ -1379,6 +1562,158 @@ function($, cssContent, WebFont) {'use strict';
 						
 					};
 
+
+					//Colour flag overide
+					var addColIndFlag = false;
+					var addColCornerFlag = false;
+					var mmstSummaryUpdate = mmstSummary;
+					var colFlagCorner = "";
+					if(colFlagToggle){
+						//BG color or marker 
+						if(colFlagTargProperty=="b"){
+							//console.log('bg boxes');
+							if(colFlagTargDataType=="meas"){
+								// target measure
+								var mmstSummaryUpateS = mmstSummary.search(/background-color:#/);
+								var mmstSummaryUpateE = mmstSummary.search(/background-color:#/)+25;
+								var mmstSummaryUpateT = mmstSummary.substr(mmstSummaryUpateS, 25);
+								
+								
+								//console.log(mmstSummaryUpdate);
+								var colFlagMeasTarg= Meas;
+								//console.log('measures ' + colFlagMeasTarg);
+								//assess type of operator equal
+								if((colFlagTargDataOP=="e") & (colFlagMeasTarg == colFlagTargValue)){
+									addColIndFlag = true;
+									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									//console.log('measure is equal ' + colFlagTargValue);
+								} else if((colFlagTargDataOP=="g") & (colFlagMeasTarg > colFlagTargValue)){
+									addColIndFlag = true;
+									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('measure is gt ' + colFlagTargValue);
+								} else if((colFlagTargDataOP=="l") & (colFlagMeasTarg < colFlagTargValue)){
+									addColIndFlag = true;
+									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('measure is lt ' + colFlagTargValue);
+								} else if((colFlagTargDataOP=="b") & (colFlagMeasTarg > colFlagTargValue) & (colFlagMeasTarg < colFlagTargValue2)){
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									addColIndFlag = true;
+									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									//console.log('measure is between ' + colFlagTargValue+ ' and ' + colFlagTargValue2);
+								};
+							} else {
+								// chose target dimension
+								var colFlagDimTarg;
+								var mmstSummaryUpateS = mmstSummary.search(/background-color:#/);
+								var mmstSummaryUpateE = mmstSummary.search(/background-color:#/)+25;
+								var mmstSummaryUpateT = mmstSummary.substr(mmstSummaryUpateS, 25);
+								
+								
+								//console.log(mmstSummaryUpdate);
+								if((colFlagTargData == 1) & (myDimCount>0)) {
+									colFlagDimTarg = Dim1;
+									//console.log('dim1 value '+colFlagDimTarg);
+								} else if ((colFlagTargData == 2) & (myDimCount>1)) {
+									colFlagDimTarg = Dim2;
+									//console.log('dim2 value '+colFlagDimTarg);
+								} else if ((colFlagTargData == 3) & (myDimCount>2)) {
+									colFlagDimTarg = Dim3;
+									//console.log('dim3 value '+colFlagDimTarg);
+								} else if ((colFlagTargData == 4) & (myDimCount>3)) {
+									colFlagDimTarg = Dim4;
+									//console.log('dim4 value '+colFlagDimTarg);
+								} ;
+								//assess type of operator equal
+								if((colFlagTargStringOP=="m") & (colFlagDimTarg == colFlagTargValue)){
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('dimension match for ' + colFlagTargData + ' - ' + colFlagTargValue);
+									addColIndFlag = true;
+									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+								} else if((colFlagTargStringOP=="i") & ((colFlagDimTarg.split(colFlagTargValue).length - 1) > 0)){
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('dimension contains for ' + colFlagTargData + ' - ' + colFlagTargValue + ' x' + (colFlagDimTarg.split(colFlagTargValue).length - 1));
+									addColIndFlag = true;
+									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+								};
+								//assess 
+								
+							};
+
+						} else if(colFlagTargProperty=="c"){
+							//console.log('bg corner');
+							if(colFlagTargDataType=="meas"){
+								// target measure
+								var mmstSummaryUpateS = mmstSummary.search(/background-color:#/);
+								var mmstSummaryUpateE = mmstSummary.search(/background-color:#/)+25;
+								var mmstSummaryUpateT = mmstSummary.substr(mmstSummaryUpateS, 25);
+								colFlagCorner = "";
+								
+								//console.log(mmstSummaryUpdate);
+								var colFlagMeasTarg= Meas;
+								//console.log('measures ' + colFlagMeasTarg);
+								//assess type of operator equal
+								if((colFlagTargDataOP=="e") & (colFlagMeasTarg == colFlagTargValue)){
+									addColCornerFlag = true;
+									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									//console.log('measure is equal ' + colFlagTargValue);
+								} else if((colFlagTargDataOP=="g") & (colFlagMeasTarg > colFlagTargValue)){
+									addColCornerFlag = true;
+									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('measure is gt ' + colFlagTargValue);
+								} else if((colFlagTargDataOP=="l") & (colFlagMeasTarg < colFlagTargValue)){
+									addColCornerFlag = true;
+									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('measure is lt ' + colFlagTargValue);
+								} else if((colFlagTargDataOP=="b") & (colFlagMeasTarg > colFlagTargValue) & (colFlagMeasTarg < colFlagTargValue2)){
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									addColCornerFlag = true;
+									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									//console.log('measure is between ' + colFlagTargValue+ ' and ' + colFlagTargValue2);
+								};
+							} else {
+								// chose target dimension
+								var colFlagDimTarg;
+								colFlagCorner = "";
+								
+								
+								//console.log(mmstSummaryUpdate);
+								if((colFlagTargData == 1) & (myDimCount>0)) {
+									colFlagDimTarg = Dim1;
+									//console.log('dim1 value '+colFlagDimTarg);
+								} else if ((colFlagTargData == 2) & (myDimCount>1)) {
+									colFlagDimTarg = Dim2;
+									//console.log('dim2 value '+colFlagDimTarg);
+								} else if ((colFlagTargData == 3) & (myDimCount>2)) {
+									colFlagDimTarg = Dim3;
+									//console.log('dim3 value '+colFlagDimTarg);
+								} else if ((colFlagTargData == 4) & (myDimCount>3)) {
+									colFlagDimTarg = Dim4;
+									//console.log('dim4 value '+colFlagDimTarg);
+								} ;
+								//assess type of operator equal
+								if((colFlagTargStringOP=="m") & (colFlagDimTarg == colFlagTargValue)){
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('dimension match for ' + colFlagTargData + ' - ' + colFlagTargValue);
+									addColCornerFlag = true;
+									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+								} else if((colFlagTargStringOP=="i") & ((colFlagDimTarg.split(colFlagTargValue).length - 1) > 0)){
+									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
+									//console.log('dimension contains for ' + colFlagTargData + ' - ' + colFlagTargValue + ' x' + (colFlagDimTarg.split(colFlagTargValue).length - 1));
+									addColCornerFlag = true;
+									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+								};
+								//assess 
+								
+							};
+
+						} ;
+
+					};
+
 					//Draw the pieces
 
 					if(curElement1 != preElement1){
@@ -1434,13 +1769,33 @@ function($, cssContent, WebFont) {'use strict';
 								html += '<div class="mmtower'+ mmOrient +' '+towersSelectable+'" ' + mmstTowerv +'data-value="'+ row[1].qElemNumber + '/1">';
 							};
 							html += '<div class="mmtowertitle'+ mmOrient +' '+towersTSelectable+'" ' +mmstTowerTitle+' data-value="'+ row[1].qElemNumber + '/1">'+ Dim2 + '</div>';
-							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ' +mmstSummary+'data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert+'</span></div>';	
+							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ';
+							if(addColIndFlag){
+								html+=mmstSummaryUpdate;
+							}else{
+								html+=mmstSummary;
+							};
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							if(addColCornerFlag){
+								html+=colFlagCorner;
+							};
+							html+='</span></div>';	
 							ele2Open=1;
 							TowerNum += parseFloat(Meas);
 							TowerBoxCount +=1;
 						} else {
 							//If same Dim2 just insert Dim3 	
-							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ' +mmstSummary+'data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert+'</span></div>';	
+							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ';
+							if(addColIndFlag){
+								html+=mmstSummaryUpdate;
+							}else{
+								html+=mmstSummary;
+							};
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							if(addColCornerFlag){
+								html+=colFlagCorner;
+							};
+							html+='</span></div>';		
 							TowerNum += parseFloat(Meas);
 							TowerBoxCount +=1;
 								
@@ -1471,13 +1826,33 @@ function($, cssContent, WebFont) {'use strict';
 								html += '<div class="mmtower'+ mmOrient +' '+towersSelectable+'" ' + mmstTowerv +'data-value="'+ row[1].qElemNumber + '/1">';
 							};
 							html += '<div class="mmtowertitle'+ mmOrient +' '+towersTSelectable+'" ' +mmstTowerTitle+' data-value="'+ row[1].qElemNumber + '/1">'+ Dim2 + '</div>';
-							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ' +mmstSummary+'data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert+'</span></div>';	
+							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ';
+							if(addColIndFlag){
+								html+=mmstSummaryUpdate;
+							}else{
+								html+=mmstSummary;
+							};
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							if(addColCornerFlag){
+								html+=colFlagCorner;
+							};
+							html+='</span></div>';		
 							ele2Open=1;
 							TowerNum += parseFloat(Meas);
 							TowerBoxCount +=1;
 						} else {
 							//If same Dim2 just insert Dim3 
-							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ' +mmstSummary+'data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert+'</span></div>';	
+							html += '<div class="mmsummary'+ mmOrient +' '+boxesSelectable+'" ';
+							if(addColIndFlag){
+								html+=mmstSummaryUpdate;
+							}else{
+								html+=mmstSummary;
+							};
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							if(addColCornerFlag){
+								html+=colFlagCorner;
+							};
+							html+='</span></div>';		
 							TowerNum += parseFloat(Meas);
 							TowerBoxCount +=1;
 
