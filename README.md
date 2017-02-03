@@ -10,7 +10,7 @@ Download zipped extension - [release 1.8 (Feb 3rd 2017)](https://github.com/murr
 
 **KNOWN ISSUES:**
 * Requires live web connection for Google Font use (may impact extension display even if you've not set the Google option).
-* There are display issues if the data has more than 2000 box level items - selction needs to be made to reduce hypercube. 
+* There are display issues if the data has more than 2000 box level items - a selection needs to be made to reduce hypercube. 
 * For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
 * Beta printing by custom page redraw - external to standard Qlik export. Use to get basic model out to a PDF or similar large format. This will require some fiddling to find the right model size and page (paper size) to get best fit/results.
 
