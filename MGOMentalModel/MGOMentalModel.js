@@ -1,5 +1,5 @@
 /*globals define*/
-define(["jquery","text!./MGOMentalModel.css", "https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"], 
+define(["jquery","text!./MGOMentalModel.css", "./webfont"], 
 function($, cssContent, WebFont) {'use strict';
 	$("<style>").html(cssContent).appendTo("head");
 	return {
