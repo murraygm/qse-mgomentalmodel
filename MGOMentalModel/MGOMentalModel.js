@@ -884,11 +884,18 @@ function($, cssContent, WebFont) {'use strict';
 							colorFlagValueDim : {
 								type : "string",
 								expression: "optional",
-								label : "value in dimension (case sensitive):",
+								label : "value in dimension:",
 								defaultValue : "",
 								ref: "qDef.IMGCOLORFLAGDIMVAL",
 								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 5)){ return true } else { return false } } 
 								},
+							colorFlagValueDimCase : {
+								type : "boolean",
+								defaultValue : true,
+								label : "Case sensitive",
+								ref: "qDef.IMGCOLORFLAGDIMCASE",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 5)){ return true } else { return false } } 
+								},	
 							colorFlagTarget : {
 								ref: "qDef.IMGCOLORFLAGTARG",
 								type: "string",
@@ -1398,7 +1405,7 @@ function($, cssContent, WebFont) {'use strict';
 
 
 			//SET UP COLOUR FLAG IF EXISTS
-			var colFlagToggle=layout.qDef.IMGCOLORFLAG, colFlagTargData = "", colFlagTargDataType ="", colFlagTargDataOP ="", colFlagTargValue= "", colFlagTargValue2= "", colFlagTargProperty ="", colFlagTargColValue="", colFlagTargStringOP="";
+			var colFlagToggle=layout.qDef.IMGCOLORFLAG, colFlagTargData = "", colFlagTargDataType ="", colFlagTargDataOP ="", colFlagTargValue= "", colFlagTargValue2= "", colFlagTargProperty ="", colFlagTargColValue="", colFlagTargStringOP="", colFlagDimCase=true;
 			var colFlagTextColInsert='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL;
 			var colFlagTextColInsertM1='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL, colFlagTextColInsertM2='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL;
 			if(colFlagToggle){
@@ -1442,6 +1449,11 @@ function($, cssContent, WebFont) {'use strict';
 					);
 				
 				**/
+				if(layout.qDef.IMGCOLORFLAGDIMCASE){
+					colFlagDimCase = true;
+				} else {
+					colFlagDimCase = false;
+				};
 		
 
 			};
@@ -1626,6 +1638,13 @@ function($, cssContent, WebFont) {'use strict';
 									//console.log('dim4 value '+colFlagDimTarg);
 								} ;
 								//assess type of operator equal
+								
+								if(colFlagDimCase != true){
+									colFlagDimTarg = colFlagDimTarg.toLowerCase();
+									colFlagTargValue = colFlagTargValue.toLowerCase();
+
+								};
+
 								if((colFlagTargStringOP=="m") & (colFlagDimTarg == colFlagTargValue)){
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('dimension match for ' + colFlagTargData + ' - ' + colFlagTargValue);
@@ -1695,6 +1714,11 @@ function($, cssContent, WebFont) {'use strict';
 									//console.log('dim4 value '+colFlagDimTarg);
 								} ;
 								//assess type of operator equal
+								if(colFlagDimCase!=true){
+									colFlagDimTarg = colFlagDimTarg.toLowerCase();
+									colFlagTargValue = colFlagTargValue.toLowerCase();
+
+								};
 								if((colFlagTargStringOP=="m") & (colFlagDimTarg == colFlagTargValue)){
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('dimension match for ' + colFlagTargData + ' - ' + colFlagTargValue);
