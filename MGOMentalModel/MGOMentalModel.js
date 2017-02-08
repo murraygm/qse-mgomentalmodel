@@ -255,7 +255,7 @@ function($, cssContent, WebFont) {'use strict';
 									tooltip: "Colour boxes by measure"
 								}, {
 									value: "D",
-									label: "Dimension",
+									label: "Dim...",
 									tooltip: "Colour boxes by 4th Dimension"
 								}, {
 									value: "N",
@@ -818,7 +818,11 @@ function($, cssContent, WebFont) {'use strict';
 									tooltip: "Assess using dimension 4"
 								},{
 									value: "5",
-									label: "Measure 1",
+									label: "Measure 1 (as text value)",
+									tooltip: "Assess using measure 1"
+								},{
+									value: "6",
+									label: "Measure 1 (numeric)",
 									tooltip: "Assess using measure 1"
 								}],
 								defaultValue: "0",
@@ -847,7 +851,7 @@ function($, cssContent, WebFont) {'use strict';
 									tooltip: "Between (exclusive)"
 								}],
 								defaultValue: "e",
-								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 4)){ return true } else { return false } } 
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 5)){ return true } else { return false } } 
 								},
 							colorFlagValueNum : {
 								type : "number",
@@ -855,14 +859,14 @@ function($, cssContent, WebFont) {'use strict';
 								expression: "optional",
 								defaultValue : 0,
 								ref: "qDef.IMGCOLORFLAGNUMVAL",
-								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 4)){ return true } else { return false } } 
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 5)){ return true } else { return false } } 
 								},
 							colorFlagValueNum2 : {
 								type : "number",
 								expression: "optional",
 								defaultValue : 0,
 								ref: "qDef.IMGCOLORFLAGNUMVAL2",
-								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 4) & (layout.qDef.IMGCOLORFLAGOP =="b")){ return true } else { return false } } 
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 5) & (layout.qDef.IMGCOLORFLAGOP =="b")){ return true } else { return false } } 
 								},
 							colorFlagDimOperator : {
 								type: "string",
@@ -879,7 +883,7 @@ function($, cssContent, WebFont) {'use strict';
 									tooltip: "Includes string"
 								}],
 								defaultValue: "m",
-								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 5)){ return true } else { return false } } 
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 6)){ return true } else { return false } } 
 								},
 							colorFlagValueDim : {
 								type : "string",
@@ -887,14 +891,14 @@ function($, cssContent, WebFont) {'use strict';
 								label : "value in dimension:",
 								defaultValue : "",
 								ref: "qDef.IMGCOLORFLAGDIMVAL",
-								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 5)){ return true } else { return false } } 
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 6)){ return true } else { return false } } 
 								},
 							colorFlagValueDimCase : {
 								type : "boolean",
 								defaultValue : true,
 								label : "Case sensitive",
 								ref: "qDef.IMGCOLORFLAGDIMCASE",
-								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 5)){ return true } else { return false } } 
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF < 6)){ return true } else { return false } } 
 								},	
 							colorFlagTarget : {
 								ref: "qDef.IMGCOLORFLAGTARG",
@@ -1412,7 +1416,7 @@ function($, cssContent, WebFont) {'use strict';
 				//console.log('FLAG ON');
 				colFlagTargData = layout.qDef.IMGCOLORFLAGREF;
 
-				if(colFlagTargData < 5){
+				if(colFlagTargData < 6){
 					//console.log('FLAG DIM');
 					colFlagTargDataType = "dim";
 					colFlagTargValue = layout.qDef.IMGCOLORFLAGDIMVAL;
@@ -1636,7 +1640,14 @@ function($, cssContent, WebFont) {'use strict';
 								} else if ((colFlagTargData == 4) & (myDimCount>3)) {
 									colFlagDimTarg = Dim4;
 									//console.log('dim4 value '+colFlagDimTarg);
-								} ;
+								} else if ((colFlagTargData == 5) & (mymeasureCount>0)) {
+									colFlagDimTarg = String(Meas);
+									//console.log('dim4 value '+colFlagDimTarg);
+								} else if((colFlagTargData == 4) & (myDimCount<4)){
+									colFlagDimTarg = "";
+								} else if((colFlagTargData == 5) & (mymeasureCount=0)){
+									colFlagDimTarg = "";
+								};
 								//assess type of operator equal
 								
 								if(colFlagDimCase != true){
@@ -1712,7 +1723,14 @@ function($, cssContent, WebFont) {'use strict';
 								} else if ((colFlagTargData == 4) & (myDimCount>3)) {
 									colFlagDimTarg = Dim4;
 									//console.log('dim4 value '+colFlagDimTarg);
-								} ;
+								} else if ((colFlagTargData == 5) & (mymeasureCount>0)) {
+									colFlagDimTarg = String(Meas);
+									//console.log('dim4 value '+colFlagDimTarg);
+								} else if((colFlagTargData == 4) & (myDimCount<4)){
+									colFlagDimTarg = "";
+								} else if((colFlagTargData == 5) & (mymeasureCount=0)){
+									colFlagDimTarg = "";
+								};
 								//assess type of operator equal
 								if(colFlagDimCase!=true){
 									colFlagDimTarg = colFlagDimTarg.toLowerCase();
