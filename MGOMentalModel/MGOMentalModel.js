@@ -4,7 +4,7 @@ function($, cssContent, WebFont) {'use strict';
 	$("<style>").html(cssContent).appendTo("head");
 	return {
 		initialProperties: {
-			version: 1.8,
+			version: 1.9,
 			qHyperCubeDef: {
 				qDimensions: [],
 				qMeasures: [],
@@ -825,7 +825,7 @@ function($, cssContent, WebFont) {'use strict';
 									label: "Measure 1 (numeric)",
 									tooltip: "Assess using measure 1"
 								}],
-								defaultValue: "0",
+								defaultValue: "3",
 								show: function(layout) { return layout.qDef.IMGCOLORFLAG }
 								},
 							colorFlagOperator : {
@@ -920,9 +920,17 @@ function($, cssContent, WebFont) {'use strict';
 							colorFlagTargetCol : {
 								type : "string",
 								expression: "optional",
-								label : "To this colour (HEX)",
+								label : "Background or marker colour (HEX)",
 								defaultValue : "F00",
 								ref: "qDef.IMGCOLORFLAGDTARGCOL",
+								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 0)){ return true } else { return false } } 
+								},
+							colorFlagTargetTextCol : {
+								type : "string",
+								expression: "optional",
+								label : "Text colour in flagged box (HEX)",
+								defaultValue : "000",
+								ref: "qDef.IMGCOLORFLAGDTARGTEXTCOL",
 								show: function(layout) { if((layout.qDef.IMGCOLORFLAG) & (layout.qDef.IMGCOLORFLAGREF > 0)){ return true } else { return false } } 
 								}
 
@@ -953,14 +961,18 @@ function($, cssContent, WebFont) {'use strict';
 			var html = "", 
 				self = this, 
 				lastrow = 0, 
+				firstrow = 0, 
 				morebutton = false, 
+				lessbutton = false,
 				rowcount = this.backendApi.getRowCount(), 
 				mymeasureCount = layout.qHyperCube.qMeasureInfo.length, 
 				myDimCount = layout.qHyperCube.qDimensionInfo.length, 
 				mmUseMeasure = layout.qDef.mmShowMeasure, 
 				mmUseDim4 = layout.qDef.mmShowDim4;
-			
-			var qdata = layout.qHyperCube.qDataPages[0];
+
+			//var qdata = layout.qHyperCube.qDataPages[0];
+			var qdata = layout.qHyperCube.qDataPages[(layout.qHyperCube.qDataPages.length - 1)];
+			var mmpagesize = 2000;
 
 			var mmuniqueID = layout.qInfo.qId;
 			
@@ -980,6 +992,9 @@ function($, cssContent, WebFont) {'use strict';
 			var measureMin = layout.qHyperCube.qMeasureInfo.map(function(d) {
 				return d.qMin;
 			});
+
+			
+
 			//edit mode catcher
 			// OLD SCOPE var parentscope = angular.element($element).scope().$parent.$parent;
 			//$element.html(parentscope.editmode ? 'In Edit Mode' : 'Not in Edit mode');
@@ -997,6 +1012,17 @@ function($, cssContent, WebFont) {'use strict';
 			    //console.log(mmcolor);
 			    return mmcolor;
 
+			};
+			function mmFixHexVAlues(uHex) {
+				//console.log(uHex);
+				var mFixedHex = uHex.toString().toUpperCase();
+				mFixedHex = mFixedHex.replace(/[^0-9ABCDEF]/g, '');
+				if((mFixedHex.length < 6) & (mFixedHex.length > 2)) {
+					mFixedHex = mFixedHex.charAt(0) + mFixedHex.charAt(0) + mFixedHex.charAt(1) + mFixedHex.charAt(1)+ mFixedHex.charAt(2) + mFixedHex.charAt(2)
+				} else if((mFixedHex.length < 6) & (mFixedHex.length < 3)) {
+					mFixedHex = '000000';
+				};
+				return mFixedHex;
 			};
 
 
@@ -1062,16 +1088,16 @@ function($, cssContent, WebFont) {'use strict';
 				];
 				if(mmShowDim4CustomCol){
 					Dim4CustomColorArray = [
-						layout.qDef.mmShowDim4CustColv1,
-						layout.qDef.mmShowDim4CustColv2,
-						layout.qDef.mmShowDim4CustColv3,
-						layout.qDef.mmShowDim4CustColv4,
-						layout.qDef.mmShowDim4CustColv5,
-						layout.qDef.mmShowDim4CustColv6,
-						layout.qDef.mmShowDim4CustColv7,
-						layout.qDef.mmShowDim4CustColv8,
-						layout.qDef.mmShowDim4CustColv9,
-						layout.qDef.mmShowDim4CustColv10
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv1),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv2),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv3),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv4),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv5),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv6),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv7),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv8),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv9),
+						mmFixHexVAlues(layout.qDef.mmShowDim4CustColv10)
 					];
 				} else {
 					Dim4CustomColorArray = [
@@ -1105,16 +1131,16 @@ function($, cssContent, WebFont) {'use strict';
 				var MeasColValTxtD="";
 				if(layout.qDef.mmShowMeasCustomCol){
 					MeasColorArraySeq =[
-					layout.qDef.mmShowMeasCustColv1,
-					layout.qDef.mmShowMeasCustColv2,
-					layout.qDef.mmShowMeasCustColv3,
-					layout.qDef.mmShowMeasCustColv4,
-					layout.qDef.mmShowMeasCustColv5,
-					layout.qDef.mmShowMeasCustColv6,
-					layout.qDef.mmShowMeasCustColv7
+					mmFixHexVAlues(layout.qDef.mmShowMeasCustColv1),
+					mmFixHexVAlues(layout.qDef.mmShowMeasCustColv2),
+					mmFixHexVAlues(layout.qDef.mmShowMeasCustColv3),
+					mmFixHexVAlues(layout.qDef.mmShowMeasCustColv4),
+					mmFixHexVAlues(layout.qDef.mmShowMeasCustColv5),
+					mmFixHexVAlues(layout.qDef.mmShowMeasCustColv6),
+					mmFixHexVAlues(layout.qDef.mmShowMeasCustColv7)
 					];
-					MeasColValTxtL=layout.qDef.mmShowMeasCustColTxt;
-					MeasColValTxtD=layout.qDef.mmShowMeasCustColTxt;
+					MeasColValTxtL=mmFixHexVAlues(layout.qDef.mmShowMeasCustColTxt);
+					MeasColValTxtD=mmFixHexVAlues(layout.qDef.mmShowMeasCustColTxt);
 				} else {
 					MeasColorArraySeq =[
 					"FFFBD5",
@@ -1216,13 +1242,13 @@ function($, cssContent, WebFont) {'use strict';
 
 			//Colour options
 			if(layout.qDef.mmCustomCols){
-				mmstModelBGCol = layout.qDef.mmStyleModelBG;
-				mmstSpaceBGCol = layout.qDef.mmStyleSpaceBG;
-				mmstTowerBGCol = layout.qDef.mmStyleTowerBG;
-				mmstSummaryBGCol = layout.qDef.mmStyleSummaryBG;
-				mmstSpaceTitleCol = layout.qDef.mmStyleSpaceTitleTxtCol;
-				mmstTowerTitleCol = layout.qDef.mmStyleTowerTitleTxtCol;
-				mmstSummaryTxtCol = layout.qDef.mmStyleSummaryTxtCol;
+				mmstModelBGCol = mmFixHexVAlues(layout.qDef.mmStyleModelBG);
+				mmstSpaceBGCol = mmFixHexVAlues(layout.qDef.mmStyleSpaceBG);
+				mmstTowerBGCol = mmFixHexVAlues(layout.qDef.mmStyleTowerBG);
+				mmstSummaryBGCol = mmFixHexVAlues(layout.qDef.mmStyleSummaryBG);
+				mmstSpaceTitleCol = mmFixHexVAlues(layout.qDef.mmStyleSpaceTitleTxtCol);
+				mmstTowerTitleCol = mmFixHexVAlues(layout.qDef.mmStyleTowerTitleTxtCol);
+				mmstSummaryTxtCol = mmFixHexVAlues(layout.qDef.mmStyleSummaryTxtCol);
 			} else {
 				mmstModelBGCol = 'inherit';
 				mmstSpaceBGCol = 'FFFFFF';
@@ -1253,11 +1279,11 @@ function($, cssContent, WebFont) {'use strict';
 			//Dividers
 			if(layout.qDef.mCustomBorders){
 				mmstSpaceDividerSize = layout.qDef.mmStyleSpaceDividerSize;
-				mmstSpaceDividerCol = layout.qDef.mmStyleSpaceDividerCol;
+				mmstSpaceDividerCol = mmFixHexVAlues(layout.qDef.mmStyleSpaceDividerCol);
 				mmstTowerBorderSize = layout.qDef.mmStyleTowerBorderSize;
-				mmstTowerBorderCol = layout.qDef.mmStyleTowerBorderCol;
+				mmstTowerBorderCol = mmFixHexVAlues(layout.qDef.mmStyleTowerBorderCol);
 				mmstSummaryBorderSize = layout.qDef.mmStyleSummaryBorderSize;
-				mmstSummaryBorderCol = layout.qDef.mmStyleSummaryBorderCol;
+				mmstSummaryBorderCol = mmFixHexVAlues(layout.qDef.mmStyleSummaryBorderCol);
 			} else {
 				mmstSpaceDividerSize = 10;
 				mmstSpaceDividerCol = 'CCCCCC';
@@ -1410,8 +1436,8 @@ function($, cssContent, WebFont) {'use strict';
 
 			//SET UP COLOUR FLAG IF EXISTS
 			var colFlagToggle=layout.qDef.IMGCOLORFLAG, colFlagTargData = "", colFlagTargDataType ="", colFlagTargDataOP ="", colFlagTargValue= "", colFlagTargValue2= "", colFlagTargProperty ="", colFlagTargColValue="", colFlagTargStringOP="", colFlagDimCase=true;
-			var colFlagTextColInsert='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL;
-			var colFlagTextColInsertM1='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL, colFlagTextColInsertM2='color:#'+layout.qDef.IMGMEASDISPLAYSTYLETXTCOL;
+			var colFlagTargColTextValue="FFFFFF";
+		
 			if(colFlagToggle){
 				//console.log('FLAG ON');
 				colFlagTargData = layout.qDef.IMGCOLORFLAGREF;
@@ -1423,7 +1449,8 @@ function($, cssContent, WebFont) {'use strict';
 					colFlagTargStringOP = layout.qDef.IMGCOLORFLAGDIMOP;
 
 					colFlagTargProperty = layout.qDef.IMGCOLORFLAGTARG;
-					colFlagTargColValue = layout.qDef.IMGCOLORFLAGDTARGCOL;
+					colFlagTargColValue = mmFixHexVAlues(layout.qDef.IMGCOLORFLAGDTARGCOL);
+					colFlagTargColTextValue=mmFixHexVAlues(layout.qDef.IMGCOLORFLAGDTARGTEXTCOL);
 
 
 				} else {
@@ -1438,7 +1465,8 @@ function($, cssContent, WebFont) {'use strict';
 					};
 					
 					colFlagTargProperty = layout.qDef.IMGCOLORFLAGTARG;
-					colFlagTargColValue = layout.qDef.IMGCOLORFLAGDTARGCOL;
+					colFlagTargColValue = mmFixHexVAlues(layout.qDef.IMGCOLORFLAGDTARGCOL);
+					colFlagTargColTextValue=mmFixHexVAlues(layout.qDef.IMGCOLORFLAGDTARGTEXTCOL);
 				};
 				/**
 				//console.log(
@@ -1465,6 +1493,9 @@ function($, cssContent, WebFont) {'use strict';
 		
 			//render data - build out the spaces, towers and boxes
 				var preElement1, curElement1, preElement2, curElement2, ele1Open=0, ele2Open=0, Dim4EleArr=[], dim1Total= 0, dim2Total= 0, TowerTotArr=[], TowerTotValsArr=[], TowerNum=0, TowerBoxCount=0;
+				var pagingButtons = false;
+				//console.log(rowcount);
+
 				$.each(qdata.qMatrix, function( key, row ) {
 					var Dim1=row[0].qText,
 					Dim2=row[1].qText,
@@ -1474,10 +1505,15 @@ function($, cssContent, WebFont) {'use strict';
 					Element3 = row[2].qElemNumber;
 
 					lastrow = key;
+					
+					//console.log(lastrow);
+					
+
 					curElement1 = Element1;
 					curElement2 = Element2;
 
-					
+					lastrow = key * layout.qHyperCube.qDataPages.length;
+					firstrow = (key * layout.qHyperCube.qDataPages.length)-mmpagesize+1;
 
 					//set up how 4th Dim will be used
 					var Dim4ToInsert="";
@@ -1491,7 +1527,7 @@ function($, cssContent, WebFont) {'use strict';
 						if(mmColourUse == "D"){
 							if(layout.qDef.mmShowDim4CustomCol){
 								Dim4Palette = Dim4CustomColorArray;
-								Dim4EntTxtCol=layout.qDef.mmShowDim4CustColTxt;
+								Dim4EntTxtCol=mmFixHexVAlues(layout.qDef.mmShowDim4CustColTxt);
 								if(Element4 > 9){
 									Dim4EntCol= "000000";
 								} else {
@@ -1583,9 +1619,10 @@ function($, cssContent, WebFont) {'use strict';
 					var addColIndFlag = false;
 					var addColCornerFlag = false;
 					var mmstSummaryUpdate = mmstSummary;
+					var mmstSummarySpanUpdate = '';
 					var colFlagCorner = "";
 					if(colFlagToggle){
-						//BG color or marker 
+						//BG color or marker
 						if(colFlagTargProperty=="b"){
 							//console.log('bg boxes');
 							if(colFlagTargDataType=="meas"){
@@ -1602,21 +1639,25 @@ function($, cssContent, WebFont) {'use strict';
 								if((colFlagTargDataOP=="e") & (colFlagMeasTarg == colFlagTargValue)){
 									addColIndFlag = true;
 									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//console.log('measure is equal ' + colFlagTargValue);
 								} else if((colFlagTargDataOP=="g") & (colFlagMeasTarg > colFlagTargValue)){
 									addColIndFlag = true;
 									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('measure is gt ' + colFlagTargValue);
 								} else if((colFlagTargDataOP=="l") & (colFlagMeasTarg < colFlagTargValue)){
 									addColIndFlag = true;
 									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('measure is lt ' + colFlagTargValue);
 								} else if((colFlagTargDataOP=="b") & (colFlagMeasTarg > colFlagTargValue) & (colFlagMeasTarg < colFlagTargValue2)){
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									addColIndFlag = true;
 									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//console.log('measure is between ' + colFlagTargValue+ ' and ' + colFlagTargValue2);
 								};
 							} else {
@@ -1661,11 +1702,13 @@ function($, cssContent, WebFont) {'use strict';
 									//console.log('dimension match for ' + colFlagTargData + ' - ' + colFlagTargValue);
 									addColIndFlag = true;
 									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 								} else if((colFlagTargStringOP=="i") & ((colFlagDimTarg.split(colFlagTargValue).length - 1) > 0)){
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('dimension contains for ' + colFlagTargData + ' - ' + colFlagTargValue + ' x' + (colFlagDimTarg.split(colFlagTargValue).length - 1));
 									addColIndFlag = true;
 									mmstSummaryUpdate= mmstSummaryUpdate.replace(mmstSummaryUpateT, 'background-color:#'+colFlagTargColValue+';');
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 								};
 								//assess 
 								
@@ -1687,21 +1730,25 @@ function($, cssContent, WebFont) {'use strict';
 								if((colFlagTargDataOP=="e") & (colFlagMeasTarg == colFlagTargValue)){
 									addColCornerFlag = true;
 									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//console.log('measure is equal ' + colFlagTargValue);
 								} else if((colFlagTargDataOP=="g") & (colFlagMeasTarg > colFlagTargValue)){
 									addColCornerFlag = true;
 									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('measure is gt ' + colFlagTargValue);
 								} else if((colFlagTargDataOP=="l") & (colFlagMeasTarg < colFlagTargValue)){
 									addColCornerFlag = true;
 									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('measure is lt ' + colFlagTargValue);
 								} else if((colFlagTargDataOP=="b") & (colFlagMeasTarg > colFlagTargValue) & (colFlagMeasTarg < colFlagTargValue2)){
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									addColCornerFlag = true;
 									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 									//console.log('measure is between ' + colFlagTargValue+ ' and ' + colFlagTargValue2);
 								};
 							} else {
@@ -1742,11 +1789,13 @@ function($, cssContent, WebFont) {'use strict';
 									//console.log('dimension match for ' + colFlagTargData + ' - ' + colFlagTargValue);
 									addColCornerFlag = true;
 									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 								} else if((colFlagTargStringOP=="i") & ((colFlagDimTarg.split(colFlagTargValue).length - 1) > 0)){
 									//imgBGColInsert = 'background-color: #' + colFlagTargColValue;
 									//console.log('dimension contains for ' + colFlagTargData + ' - ' + colFlagTargValue + ' x' + (colFlagDimTarg.split(colFlagTargValue).length - 1));
 									addColCornerFlag = true;
 									colFlagCorner = '<span style="background-color:#'+colFlagTargColValue+'; width:20px; height:20px; display:inline-block"></span>';
+									mmstSummarySpanUpdate = 'style="color:#'+colFlagTargColTextValue+'; "'; 
 								};
 								//assess 
 								
@@ -1817,7 +1866,7 @@ function($, cssContent, WebFont) {'use strict';
 							}else{
 								html+=mmstSummary;
 							};
-							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt" '+ mmstSummarySpanUpdate+'>'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
 							if(addColCornerFlag){
 								html+=colFlagCorner;
 							};
@@ -1833,7 +1882,7 @@ function($, cssContent, WebFont) {'use strict';
 							}else{
 								html+=mmstSummary;
 							};
-							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt" '+ mmstSummarySpanUpdate+'>'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
 							if(addColCornerFlag){
 								html+=colFlagCorner;
 							};
@@ -1874,7 +1923,7 @@ function($, cssContent, WebFont) {'use strict';
 							}else{
 								html+=mmstSummary;
 							};
-							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt" '+ mmstSummarySpanUpdate+'>'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
 							if(addColCornerFlag){
 								html+=colFlagCorner;
 							};
@@ -1890,7 +1939,7 @@ function($, cssContent, WebFont) {'use strict';
 							}else{
 								html+=mmstSummary;
 							};
-							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt">'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
+							html+=' data-value="'+ row[2].qElemNumber + '/2"><span class="mmsummarytxt" '+ mmstSummarySpanUpdate+'>'+ Dim3 + '</span><span class="mmAdditionalData">'+measValueToInsert+Dim4ToInsert;
 							if(addColCornerFlag){
 								html+=colFlagCorner;
 							};
@@ -2018,9 +2067,50 @@ function($, cssContent, WebFont) {'use strict';
 				};
 			};
 
+			var morebutpagetotal = Math.ceil(rowcount / mmpagesize);
+			var mmpagedsofar = mmpagesize*layout.qHyperCube.qDataPages.length;
+			//add more button
+				//console.log(layout.qHyperCube.qDataPages);
+				// 1 up or standard
+				var mmPagingButtonStyle, mmPagingButtonLStyle, mmPagingButtonMStyle, mmPagingReset;
+				
+				mmPagingButtonStyle = 'style="font-size:12px; color:#AAA; margin-top:30px"';
+				mmPagingButtonLStyle = '" style="margin-right:2px">Less';
+				mmPagingButtonMStyle = '" style="">More';
+				mmPagingReset = '';
+				var pagingButtonInsert = '';
+			
+			if(rowcount > lastrow){
+				
+				if(morebutpagetotal > 1){
+					pagingButtons = true;
+					html += '<div class="mmTooBigText" '+mmPagingButtonStyle+'>Very big model, displaying - '+ ((mmpagedsofar-mmpagesize)+1) + ' to ';
+						if(mmpagedsofar > rowcount){
+							html += rowcount + ' of ' + rowcount + ' boxes</div>';
+						} else {
+							html += (mmpagedsofar) + ' of ' + rowcount + ' boxes</div>';
+						};
+					if(mmpagedsofar > mmpagesize){
+						lessbutton = true;
+						pagingButtonInsert = '<button class="lui-button loadless '+mmPagingButtonLStyle+'</button>';	
+					} else {
+						pagingButtonInsert = '<button disabled class="lui-button loadless '+mmPagingButtonLStyle+'</button>';	
+					};
+					if((rowcount - mmpagedsofar) > 0){
+						morebutton = true;
+						pagingButtonInsert += '<button class="lui-button loadmore '+mmPagingButtonMStyle+'</button>';	
+					} else {
+						pagingButtonInsert += '<button disabled class="lui-button loadmore '+mmPagingButtonMStyle+'</button>';	
+
+					};
+				};
+			};
+
 			//Render the viz
 			$element.html( html );
 
+
+			
 
 			// interactions for model
 
@@ -2119,7 +2209,10 @@ function($, cssContent, WebFont) {'use strict';
 				
 					
 			});
-			
+			if(pagingButtons){
+					$element.find('.mmControlButs').append(pagingButtonInsert);
+					$element.find('.mmLegend').css('left', '200px');
+				};
 
 			//position the controls
 
@@ -2143,7 +2236,13 @@ function($, cssContent, WebFont) {'use strict';
 			   if (sl != mmlastScrollLeft){
 			       scrollingDiv.stop().animate({"marginLeft": ($element.parent().parent().scrollLeft() + 5) + "px"}, "fast", "swing" );
 			       if(Dim4LegendOn){
-			     		scrollingLeg.stop().animate({"left": ($element.parent().parent().scrollLeft() + 65) + "px"}, "fast", "swing" );
+			       		if(pagingButtons){
+							var legendLeftOffset = 200;
+						} else {
+							var legendLeftOffset = 65;
+						};
+
+			     		scrollingLeg.stop().animate({"left": ($element.parent().parent().scrollLeft() + legendLeftOffset) + "px"}, "fast", "swing" );
 			     	};
 			   } ;
 
@@ -2326,10 +2425,47 @@ function($, cssContent, WebFont) {'use strict';
 		  			mmContainerTarg.css('transform-origin', 'top left' );
 		  			$element.parent().parent().scrollLeft(0);
 					$element.parent().parent().scrollTop(0);
-				}
+				};
+
 			});
 
-			
+			if(morebutton) {
+				var requestPage = [{
+					qTop : lastrow+layout.qHyperCube.qDataPages.length,
+					qLeft : 0,
+					qWidth : 5, //should be # of columns
+					qHeight : Math.min(mmpagesize, rowcount - lastrow)
+				}];
+				
+				$element.find(".loadmore").on("qv-activate", function() {
+					
+					self.backendApi.getData(requestPage).then(function(dataPages) {
+						self.paint($element, layout);
+						
+						//reset any scroll on the QV object container position
+						$element.parent().parent().scrollLeft(0);
+						$element.parent().parent().scrollTop(0);
+
+					});
+				});
+			};
+			if(lessbutton) {
+				
+				$element.find(".loadless").on("qv-activate", function() {
+					layout.qHyperCube.qDataPages.splice((layout.qHyperCube.qDataPages.length-1), 1);
+					
+						self.paint($element, layout);
+						
+						//reset any scroll on the QV object container position
+						$element.parent().parent().scrollLeft(0);
+						$element.parent().parent().scrollTop(0);
+
+					
+				});
+				
+
+			};
+
 			$element.find('.butPrint').on('click', function() {
 				 var mmToPrint = 'mmI'+mmuniqueID;
 			     var printContents = document.getElementById(mmToPrint).innerHTML;
