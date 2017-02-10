@@ -13,7 +13,7 @@ Download zipped extension - [release 1. (Feb 9th 2017)](https://github.com/murra
 
 **KNOWN ISSUES:**
 * Model display capped at 2000 box level items, paging required or selections required to view the rest.
-* For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
+* For Mental Modellers - the data must be formatted and structured so that it is a flat table with values for Space > Tower > Box on each row.
 * Beta printing by custom page redraw - external to standard Qlik export. Use to get basic model out to a PDF or similar large format. This will require some fiddling to find the right model size and page (paper size) to get best fit/results.
 
 
@@ -26,6 +26,7 @@ Download zipped extension - [release 1. (Feb 9th 2017)](https://github.com/murra
 * Colour by 4th Dimension or Measure
 * Scaling and size controls
 * Selection control (on Space, Tower, box or multiple)
+* Add a custom colour flag, can be based on field value or measure
 
 ![props][props]
 [props]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_props.png "props"
