@@ -3,14 +3,16 @@ A Qlik Sense extension that creates Mental Model style diagrams (spaces, towers 
 
 This is a first pass and needs refinement - best used locally, Qlik Sense 3.# desktop [download here](http://global.qlik.com/us/landing/go-sm/qlik-sense-desktop/brand), (works on Qlik Sense Enterprise 3.2 - but is not recommended for production deployment). 
 
-Download zipped extension - [release 1.8 (Feb 3rd 2017)](https://github.com/murraygm/qse-mgomentalmodel/raw/master/MGOMentalModel1_8.zip)
+Download zipped extension - [release 1. (Feb 9th 2017)](https://github.com/murraygm/qse-mgomentalmodel/raw/master/MGOMentalModel1_9.zip)
+
+**New in 1.9:**
+* Paging now added to handle models with more than 2000 box level items.
 
 **New in 1.8:**
 * Ability to flag box level items in relation to a phrase in a dimension value or the value of the measure. Choose to set the colour of the box or add a small square in the corner.
 
 **KNOWN ISSUES:**
-* Requires live web connection for Google Font use (may impact extension display even if you've not set the Google option).
-* There are display issues if the data has more than 2000 box level items - a selection needs to be made to reduce hypercube. 
+* Model display capped at 2000 box level items, paging required or selections required to view the rest.
 * For Mental Modellers - the data must be formatted and structure so that it is a flat table with values for Space > Tower > Box on each row.
 * Beta printing by custom page redraw - external to standard Qlik export. Use to get basic model out to a PDF or similar large format. This will require some fiddling to find the right model size and page (paper size) to get best fit/results.
 
