@@ -16,9 +16,9 @@ Download zipped extension - [release 1.9 (Feb 9th 2017)](https://github.com/murr
 * For Mental Modellers - the data must be formatted and structured so that it is a flat table with values for Space > Tower > Box on each row.
 * Beta printing by custom page redraw - external to standard Qlik export. Use to get basic model out to a PDF or similar large format. This will require some fiddling to find the right model size and page (paper size) to get best fit/results.
 
-
 ![MODEL][MODEL]
-[MODEL]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/dog_clip.png "MODEL"
+[MODEL]: https://raw.githubusercontent.com/murraygm/qse-mgomentalmodel/master/screensect/dog_clip.png "MODEL"
+
 
 **Lots of options, including:**
 * Display Horizontally or vertically
@@ -29,7 +29,7 @@ Download zipped extension - [release 1.9 (Feb 9th 2017)](https://github.com/murr
 * Add a custom colour flag, can be based on field value or measure
 
 ![props][props]
-[props]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_props.png "props"
+[props]: https://raw.githubusercontent.com/murraygm/qse-mgomentalmodel/master/screensect/mm_props.png "props"
 
 
 **Examples:**
