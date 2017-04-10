@@ -75,14 +75,12 @@ Override the model's width and scale and force the layout to wrap, giving you a 
 
 Mental Models work really well when they come in 2 parts. A top (the user's mental model) and a bottom part (your teams ideas to support them). Simple put 2 on the sheet and set the to have the same scale, using the same first 2 dimensions (Space and Tower).
 
-![eg9][eg9]
-[eg9]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_59_29.png "eg9"
+![eg9](https://github.com/murraygm/qse-mgomentalmodel/blob/master/screensect/mm_59_29.png)
 
 
 For those of you who like a hard copy - it now includes a print option (beta) from the 'eye' menu. This creates a mental model only view in the browser so that you can print using the browser's print controls. NB) If using Chrome, make sure you select the 'Background graphics' option to get your colour settings.
 
-![egP][egP]
-[egP]: https://github.com/murraygm/qse-mgomentalmodel/raw/master/screensect/mm_print.png "egP"
+![egP](https://github.com/murraygm/qse-mgomentalmodel/blob/master/screensect/mm_print.png)
 
 
 
